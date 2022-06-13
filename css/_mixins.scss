@@ -20,8 +20,8 @@
 }
 
 @mixin triangle($height, $width, $top, $left) {
-    border-left: ($height/2) solid transparent;
-    border-right: ($height/2) solid transparent;
+    border-left: calc($height/2) solid transparent;
+    border-right: calc($height/2) solid transparent;
     border-bottom: $width solid rgba(0, 0, 0, 0.12);
     background-color: transparent;
     left: $left;
@@ -34,11 +34,11 @@
         content: " ";
         display: block;
         position: absolute;
-        border-left: ($height/4-1) solid transparent;
-        border-right: ($height/4-1) solid transparent;
-        border-bottom: ($height/2-3) solid transparent;
+        border-left: calc($height/4)-1 solid transparent;
+        border-right: calc($height/4)-1 solid transparent;
+        border-bottom: calc($height/2)-3 solid transparent;
         top: 6px;
-        left: -($width/4);
+        left: -(calc($width/4));
         transition: border-bottom-color 0.4s ease;
         .red & {
             border-bottom-color: #fc5c82;

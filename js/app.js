@@ -1,3 +1,6 @@
+import "../css/app.scss";
+import $ from "jquery";
+
 class Game {
 
     constructor() {
@@ -44,12 +47,6 @@ class Game {
         this.balltween = new TimelineMax({repeat: -1, paused: 1});
         $('.scene .ball-holder').append('<div class="ball red" id="ball"></div>');
         this.bounce();
-    }
-
-    generateTweet() {
-        let top = $(window).height() / 2 - 150;
-        let left = $(window).width() / 2 - 300;
-        window.open("https://twitter.com/intent/tweet?url=https://greghub.github.io/coloron/&amp;text=I scored "+ this.score +" points on Coloron! Can you beat my score? @friends_names&amp;via=greghvns&amp;hashtags=coloron", "TweetWindow", "width=600px,height=300px,top=" + top + ",left=" + left);
     }
 
     /**
@@ -341,7 +338,7 @@ class Game {
 
                     // you loose
                     game.stop();
-
+                    window.highscores.setScore(score);
                 }
 
             }
@@ -581,3 +578,70 @@ class Animation {
     }
 
 }
+
+
+window.game = new Game();
+let color = new Color();
+let userAgent = window.navigator.userAgent;
+//var animation = new Animation();
+
+//Animation.generateSmallGlows(20);
+
+$(document).ready(function() {
+    game.showResult();
+    game.scaleScreen();
+    game.intro();
+    //game.start();
+    //game.bounce();
+    window.highscores.init("Coloron");
+});
+
+$(document).on('click', '.stick.content-purple', function() {
+    color.changeColor($(this));
+});
+
+// $(document).on('click', '.stick', function() {
+//     color.changeColor($(this));
+//     if ($(this).hasClass('no-effect')) {
+//         if ($(this).hasClass('bubble-stick')) {
+//             //animation.playBubble($(this));
+//         } else if ($(this).hasClass('triangle-stick')) {
+//             //animation.playTriangle($(this));
+//         } else if ($(this).hasClass('block-stick')) {
+//             //animation.playBlock($(this));
+//         }
+//         $(this).removeClass('no-effect');
+//     }
+// });
+
+$(document).on('click', '.scene', function(){
+    let el = $('.sticks .stick:not(.touched)').first();
+
+    color.changeColor(el);
+    if (el.hasClass('no-effect')) {
+        if (el.hasClass('bubble-stick')) {
+            //animation.playBubble(el);
+        } else if (el.hasClass('triangle-stick')) {
+            //animation.playTriangle(el);
+        } else if (el.hasClass('block-stick')) {
+            //animation.playBlock(el);
+        }
+        el.removeClass('no-effect');
+    }
+
+    //$('.stick:not(.touched)').first().trigger('click');
+})
+
+$(document).on('click', '.section-2 .bar', function() {
+    color.changeColor($(this));
+});
+
+$(window).resize(function() {
+    if (!userAgent.match(/iPad/i) && !userAgent.match(/iPhone/i)) {
+        game.scaleScreenAndRun();
+    }
+});
+
+$(window).on("orientationchange", function() {
+    game.scaleScreenAndRun();
+});

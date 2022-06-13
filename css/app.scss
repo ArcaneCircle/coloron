@@ -22,12 +22,6 @@ body * {
                                   not supported by any browser */
 }
 
-a {
-    cursor: url(../svg/cursor.svg), pointer;
-    &:focus, &:active {
-    cursor: url(../svg/cursor-tap.svg), pointer;
-    }
-}
 .container {
     position: fixed;
     left: 0;
@@ -51,67 +45,23 @@ a {
     left: 0;
     top: 77px;
     height: 151px;
-    background: url(../svg/clouds.svg) repeat-x;
+    background: url(../img/clouds.svg) repeat-x;
     background-position-x: 170px; 
     animation: clouds 45s linear infinite;
 }
 .top_wave {
-    background: url(../svg/top_wave.png) repeat-x 0 -1px;
+    background: url(../img/wave.svg) repeat-x 0 -1px;
     height: 35px;
     bottom: 0;
     z-index: 10001;
     @include wave_animation(0.6);
 }
-.wave1 {
-    background: url(../svg/wave1.svg) repeat-x;
-    height: 150px;
-    bottom: 0;
-    z-index: 23;
-    @include wave_animation(0.8);
-}
-.wave2 {
-    background: url(../svg/wave2.svg) repeat-x;
-    height: 180px;
-    bottom: 30px;
-    z-index: 22;
-    @include wave_animation(1);
-}
-.wave3 {
-    background: url(../svg/wave3.svg) repeat-x;
-    height: 180px;
-    bottom: 90px;
-    z-index: 21;
-    @include wave_animation(1.2);
-}
-.wave4 {
-    background: url(../svg/wave4.svg) repeat-x;
-    height: 180px;
-    bottom: 120px;
-    z-index: 20;
-    @include wave_animation(1.4);
-}
 .mount1 {
-    background: url(../svg/mount1.svg) repeat-x;
+    background: url(../img/mount.svg) repeat-x;
     height: 150px;
     bottom: 280px;
     z-index: 11;
     animation: mount1 120s linear infinite;
-}
-.mount2 {
-    background: url(../svg/mount2.svg) repeat-x;
-    height: 150px;
-    bottom: 290px;
-    z-index: 10;
-    animation: mount2 150s linear infinite;
-}
-.noise {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    z-index: 1010;
-    background: url(../svg/noise.png);
 }
 .glow {
     position: absolute;
@@ -177,16 +127,11 @@ a {
     height: 362px;
     width: 90px;
     border-radius: 14px;
-    background-image: url(../svg/noise.png);
     position: relative;
     overflow: hidden;
     float: left;
     margin-right: 90px;
     transition: background-color 0.4s ease;
-    cursor: url(../svg/cursor.svg), pointer;
-    &:focus, &:active {
-        cursor: url(../svg/cursor-tap.svg), pointer;
-    }
 }
 .stick.red {
     background-color: #FF4571;
@@ -201,7 +146,7 @@ a {
     background-color: #4C4660;
 }
 .ball, .ball-demo {
-    background: url(../svg/ball.svg) right bottom;
+    background: url(../img/ball.svg) right bottom;
     background-size: 64px 64px;
     width: 53px;
     height: 53px;
@@ -345,14 +290,6 @@ a {
             &.bar-3 {
                 height: 150px;
                 background: #4C4660;
-            }
-        }
-        .section-2 {
-            .bar {
-                cursor: url(../svg/cursor.svg), pointer;
-                &:focus, &:active {
-                    cursor: url(../svg/cursor-tap.svg), pointer;
-                }
             }
         }
         .section-3 {
