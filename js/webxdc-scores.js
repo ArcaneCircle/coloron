@@ -1,6 +1,11 @@
+/* webxdc-scores v1.0.0
+ */
 window.highscores = (() => {
     let players = [],
-        _appName = "";
+        _appName = "",
+        container = undefined,
+        maxserialKey = "webxdc-scores.max_serial",
+        playersKey = "webxdc-scores.players";
 
     function h(tag, attributes, ...children) {
         const element = document.createElement(tag);
@@ -33,15 +38,45 @@ window.highscores = (() => {
         return scores;
     }
 
+    function updateScoreboard() {
+        if (!container) return;
+
+        let table = getHighScores();
+        let div = h("div");
+        for (let i = 0; i < table.length; i++) {
+            const player = table[i];
+            const pos = h("span", {class: "row-pos"}, player.pos);
+            pos.innerHTML += ".&nbsp;&nbsp;";
+            div.appendChild(
+                h("div", {class: "score-row" + (player.current ? " you" : "")},
+                  pos,
+                  h("span", {class: "row-name"}, player.name),
+                  h("span", {class: "row-score"}, player.score),
+                 )
+            );
+        }
+        container.innerHTML = div.innerHTML;
+    }
+
     return {
-        init: (appName) => {
+        init: (appName, scoreboard) => {
             _appName = appName;
+            if (scoreboard) {
+                container = document.getElementById(scoreboard);
+            }
+            players = JSON.parse(localStorage.getItem(playersKey) || "{}");
+            updateScoreboard();
             return window.webxdc.setUpdateListener((update) => {
                 const player = update.payload;
                 if (player.score > getScore(player.addr)) {
                     players[player.addr] = {name: player.name, score: player.score};
                 }
-            }, 0);
+                if (update.serial === update.max_serial) {
+                    localStorage.setItem(playersKey, JSON.stringify(players));
+                    localStorage.setItem(maxserialKey, update.max_serial);
+                    updateScoreboard();
+                }
+            }, parseInt(localStorage.getItem(maxserialKey) || 0));
         },
 
         getScore: () => {
@@ -53,6 +88,7 @@ window.highscores = (() => {
             const old_score = getScore(addr);
             if (score > old_score) {
                 const name = window.webxdc.selfName;
+                players[addr] = {name: name, score: score};
                 let info = name + " scored " + score;
                 if (_appName) {
                     info += " in " + _appName;
@@ -74,23 +110,5 @@ window.highscores = (() => {
         },
 
         getHighScores: getHighScores,
-
-        getScoreboard: () => {
-            let table = getHighScores();
-            let div = h("div");
-            for (let i = 0; i < table.length; i++) {
-                const player = table[i];
-                const pos = h("span", {class: "row-pos"}, player.pos);
-                pos.innerHTML += ".&nbsp;&nbsp;";
-                div.appendChild(
-                    h("div", {class: "score-row" + (player.current ? " you" : "")},
-                      pos,
-                      h("span", {class: "row-name"}, player.name),
-                      h("span", {class: "row-score"}, player.score),
-                     )
-                );
-            }
-            return div.innerHTML;
-        },
     };
 })();
