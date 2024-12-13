@@ -1,4 +1,5 @@
 import "../css/app.scss";
+import "@webxdc/highscores";
 import $ from "jquery";
 
 class Game {
@@ -593,7 +594,7 @@ $(document).ready(function() {
     game.intro();
     //game.start();
     //game.bounce();
-    window.highscores.init("Coloron");
+    window.highscores.init();
 });
 
 $(document).on('click', '.stick.content-purple', function() {
